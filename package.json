@@ -1,0 +1,16 @@
+{
+  "name": "marktexjs",
+  "version": "0.0.1",
+  "description": "A MarkTex compiler implement with js.",
+  "main": "index.js",
+  "repository": "https://github.com/marktex/marktexjs.git",
+  "author": "marktex <marktex@outlook.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "rollup": "^2.28.1",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-commonjs": "^10.1.0"
+  }
+}
