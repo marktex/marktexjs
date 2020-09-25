@@ -14,6 +14,36 @@ export class State {
         // this.AST = AST;
         // this.ast = new AST('root', '', 0);
     }
+
+    tokenize(regexp) {
+        let value,
+            index,
+            input,
+            src = this.src,
+            raw,
+            map;
+        while ((value = regexp.exec(src))) {
+            index = value["index"];
+            input = value["input"];
+            raw = value[0];
+            map = [
+                index, // start index
+                index + raw.length - 1, // end index
+                input.substring(0, index).split(/\n/).length, // line number
+            ];
+
+            if (value) {
+                let l = this.tokens.push({
+                    type: "heading",
+                    value: [...value],
+                    index,
+                    raw,
+                    map,
+                });
+                this.table[index] = l - 1;
+            }
+        }
+    }
 }
 
 export default State;
