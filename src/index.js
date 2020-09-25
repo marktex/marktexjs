@@ -1,30 +1,11 @@
-function escape(html, encode) {
-    return html
-        .replace(!encode ? /&(?!#?\w+;)/g : /&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#39;");
-}
+import Lexer from './Lexer.js';
+// import Parser from './Parser.js';
+// import Renderer from './Renderer.js';
+// import Tokenizer from './Tokenizer.js';
+// import TextRenderer from './TextRenderer.js';
+// import Slugger from './Slugger.js';
 
-const headline = /^(\#{1,6}) +([^\#\n]+)$/m;
-while ((rets = headline.exec(str)) !== null) {
-    level = rets[1].length;
-    str = str
-        .replace(
-            rets[0],
-            "<h" + level + ">" + escape(rets[2].trim()) + "</h" + level + ">"
-        )
-        .trim();
-}
-const Lexer = require('./Lexer.js');
-const Parser = require('./Parser.js');
-const Renderer = require('./Renderer.js');
-// const Tokenizer = require('./Tokenizer.js');
-// const TextRenderer = require('./TextRenderer.js');
-// const Slugger = require('./Slugger.js');
-
-function MarkTex(src, opt, callback) {
+function MarkTex(src, opt={}, callback=()=>{}) {
     // throw error in case of non string input
     if (typeof src === "undefined" || src === null) {
         throw new Error("MarkTex(): input parameter is undefined or null");
@@ -44,10 +25,14 @@ function MarkTex(src, opt, callback) {
 
     try {
         const tokens = Lexer.lex(src, opt);
+        console.log("MarkTex:tokens", tokens)
         // if (opt.walkTokens) {
         //     marked.walkTokens(tokens, opt.walkTokens);
         // }
-        return Parser.parse(tokens, opt);
+        // return Parser.parse(tokens, opt);
+        // let ast = Parser.parse(src, opt);
+        // console.log(ast);
+        // return Renderer.render(ast, opt);
     } catch (e) {
         e.message +=
             "\nPlease report this to https://github.com/marktex/marktexjs.";
@@ -66,14 +51,58 @@ function MarkTex(src, opt, callback) {
  * Expose
  */
 
-MarkTex.Parser = Parser;
-MarkTex.parse = Parser.parse;
+// MarkTex.Parser = Parser;
+// MarkTex.parse = Parser.parse;
 
-MarkTex.Renderer = Renderer;
+let testContent = `
+MARKTEX 语法设计
+
+标题
+---------------------------
+# 一级标题
+## 二级标题
+### 三级标题
+#### 四级标题
+##### 五级标题
+###### 六级标题
+
+
+列表
+---------------------------
+无序列表
+* Item 一级列表
+** Item 二级列表
+*** Item 三级列表
+
+有序列表
+1. Item 1
+2. Item 2
+3. Item 3
+
+待办列表:
++ Incomplete item
+- Complete item
+
+样式
+---------------------------
+*斜体* 
+**粗体** 
+==高亮== 
+~~删除线~~
+> 引用
+H_2_O 下标
+2^10^ 上标
+`;
+
+MarkTex(testContent)
+
+// MarkTex.Renderer = Renderer;
+// MarkTex.render = Renderer.render;
 // MarkTex.TextRenderer = TextRenderer;
 
-MarkTex.Lexer = Lexer;
-MarkTex.lex = Lexer.lex;
+// MarkTex.Lexer = Lexer;
+// MarkTex.lex = Lexer.lex;
 
-module.exports = MarkTex;
+// module.exports = MarkTex;
+export default MarkTex;
 
