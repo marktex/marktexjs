@@ -7,7 +7,8 @@
   "author": "marktex <marktex@outlook.com>",
   "license": "MIT",
   "scripts": {
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "rollup": "rollup -c rollup.config.js"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
