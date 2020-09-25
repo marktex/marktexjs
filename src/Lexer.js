@@ -1,19 +1,21 @@
 // import { smartypants } from "./util";
 
 // import AST from "./ast";
-import Ruler from "./ruler"
+import Ruler from "./ruler";
 import State from "./state";
-import hr from "./rules/hr";
+import rules from "./rules";
 
-let $rules = [
-    ["hr", hr]
-    // ["normalize", normalize],
-    // ["block", require("./rules/block")],
-    // ["inline", require("./rules/inline")],
-    // ["linkify", require("./rules/linkify")],
-    // ["replacements", require("./rules/replacements")],
-    // ["smartquotes", require("./rules/smartquotes")],
-];
+// let rules = [
+//     ["hr", hr],
+//     ["heading", heading],
+//     ["list", list],
+//     // ["normalize", normalize],
+//     // ["block", require("./rules/block")],
+//     // ["inline", require("./rules/inline")],
+//     // ["linkify", require("./rules/linkify")],
+//     // ["replacements", require("./rules/replacements")],
+//     // ["smartquotes", require("./rules/smartquotes")],
+// ];
 
 export class Lexer {
     static lex(src, options = {}) {
@@ -32,7 +34,7 @@ export class Lexer {
          * [[Ruler]] instance. Keep configuration of parse rules.
          */
         this.ruler = new Ruler();
-        this.ruler.push($rules);
+        this.ruler.push(rules);
         /**
          * Lexer#options: Object
          */
@@ -76,7 +78,7 @@ export class Lexer {
             rules[i].apply(this.state);
         }
 
-        return this.state.tokens
+        return this.state.tokens;
     }
 }
 
