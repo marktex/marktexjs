@@ -1,6 +1,10 @@
+const commonjs = require('rollup-plugin-commonjs');
+const babel = require('rollup-plugin-babel');
+
 export default {
     input: "src/index.js",
     output: {
+        name: "marktex",
         file: "marktex.js",
         format: "umd",
     },
