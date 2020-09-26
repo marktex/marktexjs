@@ -1,7 +1,7 @@
 import Lexer from './Lexer.js';
 import State from './state.js';
 import Parser from './Parser.js';
-// import Renderer from './Renderer.js';
+import Renderer from './Renderer.js';
 // import Tokenizer from './Tokenizer.js';
 // import TextRenderer from './TextRenderer.js';
 // import Slugger from './Slugger.js';
@@ -39,7 +39,8 @@ function MarkTex(src, opt={}, callback=()=>{}) {
         // return Parser.parse(tokens, opt);
         state = Parser.parse(state, opt);
         console.log("MarkTex:ast", state.ast);
-        // return Renderer.render(ast, opt);
+        state = Renderer.render(state, opt);
+        console.log("MarkTex:html", state.html);
     } catch (e) {
         e.message +=
             "\nPlease report this to https://github.com/marktex/marktexjs.";

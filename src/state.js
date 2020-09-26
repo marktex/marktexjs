@@ -4,15 +4,24 @@ export class State {
     constructor(src, preset = null) {
         this.src = (preset && preset(src)) || src;
         /**
-         * Lexer#tokens: Array
+         * State#tokens: Array
          */
         this.tokens = [];
         /**
-         * Lexer#table: Object
+         * State#table: Object
          */
         this.table = {}; // { [tokens[i].index]:i }
         // this.AST = AST;
+        /**
+         * State#ast: AST
+         */
         this.ast = new AST('root', '', 0);
+        /**
+         * State#out: Array
+         * 
+         * Used to output html string with method [].join("")
+         */
+        this.out = [];
     }
 
     tokenize(regexp, type='') {
