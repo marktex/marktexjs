@@ -1,6 +1,6 @@
 import Lexer from './Lexer.js';
 import State from './state.js';
-// import Parser from './Parser.js';
+import Parser from './Parser.js';
 // import Renderer from './Renderer.js';
 // import Tokenizer from './Tokenizer.js';
 // import TextRenderer from './TextRenderer.js';
@@ -32,13 +32,13 @@ function MarkTex(src, opt={}, callback=()=>{}) {
                 .replace(/\t/g, "    "); // Replace tab with four blank space
         });
         state = Lexer.lex(state, opt);
-        console.log("MarkTex:state", state)
+        console.log("MarkTex:tokens", state.tokens)
         // if (opt.walkTokens) {
         //     marked.walkTokens(tokens, opt.walkTokens);
         // }
         // return Parser.parse(tokens, opt);
-        // let ast = Parser.parse(src, opt);
-        // console.log(ast);
+        state = Parser.parse(state, opt);
+        console.log("MarkTex:ast", state.ast);
         // return Renderer.render(ast, opt);
     } catch (e) {
         e.message +=
