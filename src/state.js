@@ -1,14 +1,14 @@
 import AST from "./ast";
 
 export class State {
-    constructor(src) {
-        this.src = src;
+    constructor(src, preset = null) {
+        this.src = (preset && preset(src)) || src;
         /**
          * Lexer#tokens: Array
          */
         this.tokens = [];
         /**
-         * Lexer#map: Object
+         * Lexer#table: Object
          */
         this.table = {}; // { [tokens[i].index]:i }
         // this.AST = AST;

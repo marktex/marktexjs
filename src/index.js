@@ -1,4 +1,5 @@
 import Lexer from './Lexer.js';
+import State from './state.js';
 // import Parser from './Parser.js';
 // import Renderer from './Renderer.js';
 // import Tokenizer from './Tokenizer.js';
@@ -24,8 +25,14 @@ function MarkTex(src, opt={}, callback=()=>{}) {
     }
 
     try {
-        const tokens = Lexer.lex(src, opt);
-        console.log("MarkTex:tokens", tokens)
+        let state = new State(src, src=>{
+            return src
+                .replace(/\r\n?|\n/g, "\n") // Normalize newlines
+                .replace(/\0/g, "\uFFFD") // Replace NULL characters
+                .replace(/\t/g, "    "); // Replace tab with four blank space
+        });
+        state = Lexer.lex(state, opt);
+        console.log("MarkTex:state", state)
         // if (opt.walkTokens) {
         //     marked.walkTokens(tokens, opt.walkTokens);
         // }

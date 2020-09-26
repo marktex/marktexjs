@@ -18,23 +18,28 @@ import rules from "./rules";
 // ];
 
 export class Lexer {
-    static lex(src, options = {}) {
-        let lexer = new Lexer(src, options);
+    static lex(state, options = {}) {
+        let lexer = new Lexer(state, options);
         return lexer.lex();
     }
 
-    constructor(src, options = {}) {
+    constructor(state, options = {}) {
+        // /**
+        //  * Lexer#src: String
+        //  */
+        // this.src = src;
         /**
-         * Lexer#src: String
+         * Lexer#state: State
          */
-        this.src = src;
+        // this.state = new State(this.preset(src));
+        this.state = state;
         /**
          * Lexer#ruler: Ruler
          *
          * [[Ruler]] instance. Keep configuration of parse rules.
          */
-        this.ruler = new Ruler();
-        this.ruler.push(rules);
+        this.ruler = new Ruler(rules);
+        // this.ruler.push(rules);
         /**
          * Lexer#options: Object
          */
@@ -47,10 +52,6 @@ export class Lexer {
         //  * Lexer#map: Object
         //  */
         // this.map = {};
-        /**
-         * Lexer#state: State
-         */
-        this.state = new State(this.preset(src));
         /**
          * Lexer#ast: AST
          */
@@ -72,13 +73,13 @@ export class Lexer {
      * Parse.parse(state)
      */
     lex() {
-        const { rules } = this.ruler;
+        const { state, ruler:{rules} } = this;
 
         for (let i = 0, l = rules.length; i < l; i++) {
-            rules[i].apply(this.state);
+            rules[i].apply(state);
         }
 
-        return this.state.tokens;
+        return state;
     }
 }
 
