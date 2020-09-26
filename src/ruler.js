@@ -1,7 +1,7 @@
 export class Ruler {
     constructor() {
         /**
-         * Parser#rules: Array
+         * Parser#__rules__: Array
          *
          * List of added rules. Each element is:
          * {
@@ -9,10 +9,40 @@ export class Ruler {
          *      enabled: Boolean,
          *      state: Number,
          *      apply: Function(),
-         *      options: Object
+         *      options: Object,
+         *      level: Number, // 规则等级
          * }
          */
-        this.rules = [];
+        this.__rules__ = [];
+        /**
+         * [TO DO]:
+         *
+         * Ruler#levelMap: Object
+         *
+         * Format:
+         * {
+         *      '0': [{name, apply, enable, level, options}, ...]
+         *      '3': [{name, apply, enable, level, options}, ...]
+         * }
+         */
+
+        /**
+         * [TO DO]:
+         *
+         * Ruler#__cache__: Array | null
+         *
+         * 缓存 enabled rules，，以提升性能
+         */
+        this.__cache__ = null;
+    }
+
+    get rules() {
+        const { __rules__, __cache__ } = this;
+        return __cache__
+            ? __cache__
+            : __rules__.filter(({ enabled }) => {
+                  return enabled;
+              });
     }
 
     /**
@@ -22,8 +52,8 @@ export class Ruler {
      * Find rule index by name
      */
     indexOf(name) {
-        for (let i = 0; i < this.rules.length; i++) {
-            if (this.rules[i].name === name) {
+        for (let i = 0; i < this.__rules__.length; i++) {
+            if (this.__rules__[i].name === name) {
                 return i;
             }
         }
@@ -38,14 +68,14 @@ export class Ruler {
             throw new Error(`Parser rule not found: ${beforeName}`);
         }
 
-        this.rules.splice(index, 0, {
+        this.__rules__.splice(index, 0, {
             name: ruleName,
             enabled: true,
             apply: apply,
             options,
         });
 
-        // this.__cache__ = null;
+        this.__cache__ = null;
     }
 
     after(afterName, ruleName, apply, options = {}) {
@@ -56,14 +86,14 @@ export class Ruler {
             throw new Error(`Parser rule not found: ${afterName}`);
         }
 
-        this.rules.splice(index + 1, 0, {
+        this.__rules__.splice(index + 1, 0, {
             name: ruleName,
             enabled: true,
             apply: apply,
             options,
         });
 
-        // this.__cache__ = null;
+        this.__cache__ = null;
     }
 
     push(rules) {
@@ -74,15 +104,16 @@ export class Ruler {
             rules = [rules];
         }
 
-        rules.forEach(([name, apply, enabled, options])=>{
-            this.rules.push({
+        rules.forEach(([name, apply, enabled, options]) => {
+            this.__rules__.push({
                 name,
                 enabled: enabled || true,
                 apply,
-                options: options|| {},
+                options: options || {},
             });
-        })
-        // this.__cache__ = null;
+        });
+
+        this.__cache__ = null;
     }
 
     enable(list, ignoreInvalid) {
@@ -102,11 +133,11 @@ export class Ruler {
                 }
                 throw new Error(`Rules manager: invalid rule name ${name}`);
             }
-            this.rules[idx].enabled = true;
+            this.__rules__[idx].enabled = true;
             result.push(name);
         }, this);
 
-        // this.__cache__ = null;
+        this.__cache__ = null;
         return result;
     }
 
@@ -127,13 +158,13 @@ export class Ruler {
                 }
                 throw new Error(`Rules manager: invalid rule name ${name}`);
             }
-            this.rules[idx].enabled = false;
+            this.__rules__[idx].enabled = false;
             result.push(name);
         }, this);
 
-        // this.__cache__ = null;
+        this.__cache__ = null;
         return result;
-    };
+    }
 }
 
 export default Ruler;
