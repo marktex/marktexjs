@@ -1,5 +1,5 @@
 export class Ruler {
-    constructor() {
+    constructor(rules=null) {
         /**
          * Parser#__rules__: Array
          *
@@ -34,6 +34,22 @@ export class Ruler {
          * 缓存 enabled rules，，以提升性能
          */
         this.__cache__ = null;
+
+
+        // let opt = options || {};
+        // ruleName, apply, options = {}
+
+        if (rules) {
+            rules = Array.isArray(rules) ? rules: [rules];
+            rules.forEach(([name, apply, enabled, options]) => {
+                this.__rules__.push({
+                    name,
+                    enabled: enabled || true,
+                    apply,
+                    options: options || {},
+                });
+            });
+        }
     }
 
     get rules() {
