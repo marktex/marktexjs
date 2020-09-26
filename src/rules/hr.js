@@ -2,7 +2,7 @@ import reg from "./regexp";
 
 export function hr(state) {
     //  hr: /^(?:([\-] ?)+)\1\1$/gm,
-    state.tokenize(reg.hr);
+    state.tokenize(reg.hr, 'hr');
 
     // const value = reg.hr.exec(state.src);
 

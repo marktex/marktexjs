@@ -12,10 +12,10 @@ export class State {
          */
         this.table = {}; // { [tokens[i].index]:i }
         // this.AST = AST;
-        // this.ast = new AST('root', '', 0);
+        this.ast = new AST('root', '', 0);
     }
 
-    tokenize(regexp) {
+    tokenize(regexp, type='') {
         let value,
             index,
             input,
@@ -34,7 +34,7 @@ export class State {
 
             if (value) {
                 let l = this.tokens.push({
-                    type: "heading",
+                    type,
                     value: [...value],
                     index,
                     raw,

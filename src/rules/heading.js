@@ -11,7 +11,7 @@ export function heading(state) {
         };
     }
  */
-    state.tokenize(reg.heading);
+    state.tokenize(reg.heading, 'heading');
     // let value;
     // while ((value = reg.heading.exec(state.src))) {
     //     let raw = value[0],
