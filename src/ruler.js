@@ -27,29 +27,61 @@ export class Ruler {
          */
 
         /**
-         * [TO DO]:
-         *
          * Ruler#__cache__: Array | null
          *
          * 缓存 enabled rules，，以提升性能
          */
         this.__cache__ = null;
 
-
-        // let opt = options || {};
-        // ruleName, apply, options = {}
+        /**
+         * Parser#__tower__: Array
+         *
+         * List of added tower. Each element is:
+         * {
+         *      name: String,
+         *      enabled: Boolean,
+         *      state: Number,
+         *      apply: Function(),
+         *      options: Object,
+         *      level: Number, // 规则等级
+         * }
+         */
+        this.__tower__ = {}
 
         if (rules) {
             rules = Array.isArray(rules) ? rules: [rules];
-            rules.forEach(([name, apply, enabled, options]) => {
+            rules.forEach(([name, apply, step, options={}]) => {
+                let {level, enabled,} = options;
+                options =  options || {};
+                enabled =  enabled || true;
+                level = level || 0;
+                /**
+                 * @deprecated
+                 */
                 this.__rules__.push({
                     name,
-                    enabled: enabled || true,
+                    enabled,
                     apply,
-                    options: options || {},
+                    options,
                 });
+                this.__tower__[level] = this.__tower__[level] ? this.__tower__[level] : [];
+                this.__tower__[level].push({
+                    name,
+                    apply,
+                    level,
+                    enabled,
+                    options,
+                });
+
             });
         }
+    }
+
+    get tower(){
+        /**
+         * [TO DO]
+         */
+        return this.__tower__;
     }
 
     get rules() {

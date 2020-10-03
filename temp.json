@@ -1,0 +1,485 @@
+{
+    "type": "root",
+    "value": [],
+    "index": 0,
+    "raw": "",
+    "map": [0, 455, 0],
+    "token": null,
+    "children": [
+        {
+            "type": "text",
+            "value": [0, 141, 1, 0],
+            "index": 0,
+            "raw": "\nMARKTEX 语法设计\n\n标题\n---------------------------\n# 一级标题\n## 二级标题\n### 三级标题\n#### 四级标题\n##### 五级标题\n###### 六级标题\n\n\n列表\n---------------------------\n无序列表\n",
+            "map": [0, 141, 1, 0],
+            "token": null,
+            "children": []
+        },
+        {
+            "type": "list",
+            "value": [
+                "* Item 一级列表\n  * Item 二级列表\n    * Item 三级列表\n    * Item 三级列表\n  * Item 二级列表\n* Item 一级列表\n",
+                "",
+                "*",
+                "Item 一级列表",
+                "*"
+            ],
+            "index": 0,
+            "raw": "* Item 一级列表\n  * Item 二级列表\n    * Item 三级列表\n    * Item 三级列表\n  * Item 二级列表\n* Item 一级列表\n",
+            "map": [141, 225, 17, 0],
+            "token": null,
+            "children": [
+                {
+                    "type": "li",
+                    "value": [
+                        "* Item 一级列表\n  * Item 二级列表\n    * Item 三级列表\n    * Item 三级列表\n  * Item 二级列表\n",
+                        "",
+                        "*",
+                        "Item 一级列表"
+                    ],
+                    "index": 0,
+                    "raw": "* Item 一级列表\n  * Item 二级列表\n    * Item 三级列表\n    * Item 三级列表\n  * Item 二级列表\n",
+                    "map": [141, 213, 17, 0],
+                    "token": null,
+                    "children": [
+                        {
+                            "type": "text",
+                            "value": [143, 153, 17, 2],
+                            "index": 0,
+                            "raw": "Item 一级列表\n",
+                            "map": [143, 153, 17, 2],
+                            "token": null,
+                            "children": []
+                        },
+                        {
+                            "type": "list",
+                            "value": [
+                                "  * Item 二级列表\n    * Item 三级列表\n    * Item 三级列表\n  * Item 二级列表\n",
+                                "  ",
+                                "*",
+                                "Item 二级列表",
+                                "*"
+                            ],
+                            "index": 0,
+                            "raw": "  * Item 二级列表\n    * Item 三级列表\n    * Item 三级列表\n  * Item 二级列表\n",
+                            "map": [153, 213, 18, 0],
+                            "token": null,
+                            "children": [
+                                {
+                                    "type": "li",
+                                    "value": [
+                                        "  * Item 二级列表\n    * Item 三级列表\n    * Item 三级列表\n",
+                                        "  ",
+                                        "*",
+                                        "Item 二级列表"
+                                    ],
+                                    "index": 0,
+                                    "raw": "  * Item 二级列表\n    * Item 三级列表\n    * Item 三级列表\n",
+                                    "map": [153, 199, 18, 0],
+                                    "token": null,
+                                    "children": [
+                                        {
+                                            "type": "text",
+                                            "value": [157, 167, 18, 4],
+                                            "index": 0,
+                                            "raw": "Item 二级列表\n",
+                                            "map": [157, 167, 18, 4],
+                                            "token": null,
+                                            "children": []
+                                        },
+                                        {
+                                            "type": "list",
+                                            "value": [
+                                                "    * Item 三级列表\n    * Item 三级列表\n",
+                                                "    ",
+                                                "*",
+                                                "Item 三级列表",
+                                                "*"
+                                            ],
+                                            "index": 0,
+                                            "raw": "    * Item 三级列表\n    * Item 三级列表\n",
+                                            "map": [167, 199, 19, 0],
+                                            "token": null,
+                                            "children": [
+                                                {
+                                                    "type": "li",
+                                                    "value": [
+                                                        "    * Item 三级列表\n",
+                                                        "    ",
+                                                        "*",
+                                                        "Item 三级列表"
+                                                    ],
+                                                    "index": 0,
+                                                    "raw": "    * Item 三级列表\n",
+                                                    "map": [167, 183, 19, 0],
+                                                    "token": null,
+                                                    "children": [
+                                                        {
+                                                            "type": "text",
+                                                            "value": [
+                                                                173,
+                                                                183,
+                                                                19,
+                                                                6
+                                                            ],
+                                                            "index": 0,
+                                                            "raw": "Item 三级列表\n",
+                                                            "map": [
+                                                                173,
+                                                                183,
+                                                                19,
+                                                                6
+                                                            ],
+                                                            "token": null,
+                                                            "children": []
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "type": "li",
+                                                    "value": [
+                                                        "    * Item 三级列表\n",
+                                                        "    ",
+                                                        "*",
+                                                        "Item 三级列表"
+                                                    ],
+                                                    "index": 0,
+                                                    "raw": "    * Item 三级列表\n",
+                                                    "map": [183, 199, 20, 0],
+                                                    "token": null,
+                                                    "children": [
+                                                        {
+                                                            "type": "text",
+                                                            "value": [
+                                                                189,
+                                                                199,
+                                                                20,
+                                                                6
+                                                            ],
+                                                            "index": 0,
+                                                            "raw": "Item 三级列表\n",
+                                                            "map": [
+                                                                189,
+                                                                199,
+                                                                20,
+                                                                6
+                                                            ],
+                                                            "token": null,
+                                                            "children": []
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "li",
+                                    "value": [
+                                        "  * Item 二级列表\n",
+                                        "  ",
+                                        "*",
+                                        "Item 二级列表"
+                                    ],
+                                    "index": 0,
+                                    "raw": "  * Item 二级列表\n",
+                                    "map": [199, 213, 21, 0],
+                                    "token": null,
+                                    "children": [
+                                        {
+                                            "type": "text",
+                                            "value": [203, 213, 21, 4],
+                                            "index": 0,
+                                            "raw": "Item 二级列表\n",
+                                            "map": [203, 213, 21, 4],
+                                            "token": null,
+                                            "children": []
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "li",
+                    "value": ["* Item 一级列表\n", "", "*", "Item 一级列表"],
+                    "index": 0,
+                    "raw": "* Item 一级列表\n",
+                    "map": [213, 225, 22, 0],
+                    "token": null,
+                    "children": []
+                }
+            ]
+        },
+        {
+            "type": "text",
+            "value": [215, 231, 22, 2],
+            "index": 0,
+            "raw": "Item 一级列表\n\n有序列表\n",
+            "map": [215, 231, 22, 2],
+            "token": null,
+            "children": []
+        },
+        {
+            "type": "list",
+            "value": [
+                "1. Item 一级列表\n  1. Item 二级列表\n    1. Item 三级列表\n    2. Item 三级列表\n  2. Item 二级列表\n2. Item 一级列表\n",
+                "",
+                "1.",
+                "Item 一级列表",
+                "2."
+            ],
+            "index": 0,
+            "raw": "1. Item 一级列表\n  1. Item 二级列表\n    1. Item 三级列表\n    2. Item 三级列表\n  2. Item 二级列表\n2. Item 一级列表\n",
+            "map": [231, 321, 25, 0],
+            "token": null,
+            "children": [
+                {
+                    "type": "li",
+                    "value": [
+                        "1. Item 一级列表\n  1. Item 二级列表\n    1. Item 三级列表\n    2. Item 三级列表\n  2. Item 二级列表\n",
+                        "",
+                        "1.",
+                        "Item 一级列表"
+                    ],
+                    "index": 0,
+                    "raw": "1. Item 一级列表\n  1. Item 二级列表\n    1. Item 三级列表\n    2. Item 三级列表\n  2. Item 二级列表\n",
+                    "map": [231, 308, 25, 0],
+                    "token": null,
+                    "children": [
+                        {
+                            "type": "text",
+                            "value": [234, 244, 25, 3],
+                            "index": 0,
+                            "raw": "Item 一级列表\n",
+                            "map": [234, 244, 25, 3],
+                            "token": null,
+                            "children": []
+                        },
+                        {
+                            "type": "list",
+                            "value": [
+                                "  1. Item 二级列表\n    1. Item 三级列表\n    2. Item 三级列表\n  2. Item 二级列表\n",
+                                "  ",
+                                "1.",
+                                "Item 二级列表",
+                                "2."
+                            ],
+                            "index": 0,
+                            "raw": "  1. Item 二级列表\n    1. Item 三级列表\n    2. Item 三级列表\n  2. Item 二级列表\n",
+                            "map": [244, 308, 26, 0],
+                            "token": null,
+                            "children": [
+                                {
+                                    "type": "li",
+                                    "value": [
+                                        "  1. Item 二级列表\n    1. Item 三级列表\n    2. Item 三级列表\n",
+                                        "  ",
+                                        "1.",
+                                        "Item 二级列表"
+                                    ],
+                                    "index": 0,
+                                    "raw": "  1. Item 二级列表\n    1. Item 三级列表\n    2. Item 三级列表\n",
+                                    "map": [244, 293, 26, 0],
+                                    "token": null,
+                                    "children": [
+                                        {
+                                            "type": "text",
+                                            "value": [249, 259, 26, 5],
+                                            "index": 0,
+                                            "raw": "Item 二级列表\n",
+                                            "map": [249, 259, 26, 5],
+                                            "token": null,
+                                            "children": []
+                                        },
+                                        {
+                                            "type": "list",
+                                            "value": [
+                                                "    1. Item 三级列表\n    2. Item 三级列表\n",
+                                                "    ",
+                                                "1.",
+                                                "Item 三级列表",
+                                                "2."
+                                            ],
+                                            "index": 0,
+                                            "raw": "    1. Item 三级列表\n    2. Item 三级列表\n",
+                                            "map": [259, 293, 27, 0],
+                                            "token": null,
+                                            "children": [
+                                                {
+                                                    "type": "li",
+                                                    "value": [
+                                                        "    1. Item 三级列表\n",
+                                                        "    ",
+                                                        "1.",
+                                                        "Item 三级列表"
+                                                    ],
+                                                    "index": 0,
+                                                    "raw": "    1. Item 三级列表\n",
+                                                    "map": [259, 276, 27, 0],
+                                                    "token": null,
+                                                    "children": [
+                                                        {
+                                                            "type": "text",
+                                                            "value": [
+                                                                266,
+                                                                276,
+                                                                27,
+                                                                7
+                                                            ],
+                                                            "index": 0,
+                                                            "raw": "Item 三级列表\n",
+                                                            "map": [
+                                                                266,
+                                                                276,
+                                                                27,
+                                                                7
+                                                            ],
+                                                            "token": null,
+                                                            "children": []
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "type": "li",
+                                                    "value": [
+                                                        "    2. Item 三级列表\n",
+                                                        "    ",
+                                                        "2.",
+                                                        "Item 三级列表"
+                                                    ],
+                                                    "index": 0,
+                                                    "raw": "    2. Item 三级列表\n",
+                                                    "map": [276, 293, 28, 0],
+                                                    "token": null,
+                                                    "children": [
+                                                        {
+                                                            "type": "text",
+                                                            "value": [
+                                                                283,
+                                                                293,
+                                                                28,
+                                                                7
+                                                            ],
+                                                            "index": 0,
+                                                            "raw": "Item 三级列表\n",
+                                                            "map": [
+                                                                283,
+                                                                293,
+                                                                28,
+                                                                7
+                                                            ],
+                                                            "token": null,
+                                                            "children": []
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "li",
+                                    "value": [
+                                        "  2. Item 二级列表\n",
+                                        "  ",
+                                        "2.",
+                                        "Item 二级列表"
+                                    ],
+                                    "index": 0,
+                                    "raw": "  2. Item 二级列表\n",
+                                    "map": [293, 308, 29, 0],
+                                    "token": null,
+                                    "children": [
+                                        {
+                                            "type": "text",
+                                            "value": [298, 308, 29, 5],
+                                            "index": 0,
+                                            "raw": "Item 二级列表\n",
+                                            "map": [298, 308, 29, 5],
+                                            "token": null,
+                                            "children": []
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "li",
+                    "value": ["2. Item 一级列表\n", "", "2.", "Item 一级列表"],
+                    "index": 0,
+                    "raw": "2. Item 一级列表\n",
+                    "map": [308, 321, 30, 0],
+                    "token": null,
+                    "children": []
+                }
+            ]
+        },
+        {
+            "type": "text",
+            "value": [311, 328, 30, 3],
+            "index": 0,
+            "raw": "Item 一级列表\n\n待办列表:\n",
+            "map": [311, 328, 30, 3],
+            "token": null,
+            "children": []
+        },
+        {
+            "type": "list",
+            "value": [
+                "- [ ] Incomplete item\n- [x] Complete item\n",
+                "",
+                "-",
+                "[ ] Incomplete item",
+                "-"
+            ],
+            "index": 0,
+            "raw": "- [ ] Incomplete item\n- [x] Complete item\n",
+            "map": [328, 370, 33, 0],
+            "token": null,
+            "children": [
+                {
+                    "type": "li",
+                    "value": [
+                        "- [ ] Incomplete item\n",
+                        "",
+                        "-",
+                        "[ ] Incomplete item"
+                    ],
+                    "index": 0,
+                    "raw": "- [ ] Incomplete item\n",
+                    "map": [328, 350, 33, 0],
+                    "token": null,
+                    "children": [
+                        {
+                            "type": "text",
+                            "value": [330, 350, 33, 2],
+                            "index": 0,
+                            "raw": "[ ] Incomplete item\n",
+                            "map": [330, 350, 33, 2],
+                            "token": null,
+                            "children": []
+                        }
+                    ]
+                },
+                {
+                    "type": "li",
+                    "value": [
+                        "- [x] Complete item\n",
+                        "",
+                        "-",
+                        "[x] Complete item"
+                    ],
+                    "index": 0,
+                    "raw": "- [x] Complete item\n",
+                    "map": [350, 370, 34, 0],
+                    "token": null,
+                    "children": []
+                }
+            ]
+        }
+    ]
+}

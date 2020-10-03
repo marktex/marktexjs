@@ -32,13 +32,14 @@ function MarkTex(src, opt={}, callback=()=>{}) {
                 .replace(/\t/g, "    "); // Replace tab with four blank space
         });
         state = Lexer.lex(state, opt);
-        console.log("MarkTex:tokens", state.tokens)
+        // console.log("MarkTex:tokens", state.tokens)
         // if (opt.walkTokens) {
         //     marked.walkTokens(tokens, opt.walkTokens);
         // }
         // return Parser.parse(tokens, opt);
         state = Parser.parse(state, opt);
-        console.log("MarkTex:ast", state.ast);
+        // console.log("MarkTex:table", JSON.stringify(state.table));
+        console.log("MarkTex:ast", JSON.stringify(state.ast));
         state = Renderer.render(state, opt);
         console.log("MarkTex:html", state.html);
     } catch (e) {
@@ -79,17 +80,23 @@ MARKTEX 语法设计
 ---------------------------
 无序列表
 * Item 一级列表
-** Item 二级列表
-*** Item 三级列表
+  * Item 二级列表
+    * Item 三级列表
+    * Item 三级列表
+  * Item 二级列表
+* Item 一级列表
 
 有序列表
-1. Item 1
-2. Item 2
-3. Item 3
+1. Item 一级列表
+  1. Item 二级列表
+    1. Item 三级列表
+    2. Item 三级列表
+  2. Item 二级列表
+2. Item 一级列表
 
 待办列表:
-+ Incomplete item
-- Complete item
+- [ ] Incomplete item
+- [x] Complete item
 
 样式
 ---------------------------

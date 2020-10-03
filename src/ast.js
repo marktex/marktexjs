@@ -5,7 +5,7 @@
  */
 
 export class AST {
-    constructor(type, tag, token) {
+    constructor({type, map, value=[], index=0, raw=""}) {
         /**
          * AST#type: String
          *
@@ -14,16 +14,35 @@ export class AST {
         this.type = type;
 
         /**
-         * AST#tag: String
+         * AST#value: Array
          *
-         * html tag name, e.g. "p"
+         * results of RegExp matched value
          */
-        this.tag = tag;
+        this.value = value;
 
         /**
-         * AST#token: String
+         * AST#index: Number
+         * 
+         * the start position 
          */
-        this.token = token;
+        this.index = index;
+
+        /**
+         * AST#raw: String
+         */
+        this.raw = raw;
+
+        /**
+         * AST#map: Array
+         *
+         * Format: [start, end, line]
+         */
+        this.map = map;
+
+        /**
+         * AST#token: Object | null
+         */
+        this.token = null;
 
         /**
          * AST#nesting: Number
@@ -34,35 +53,28 @@ export class AST {
          * -  `0` means the tag is self-closing
          * - `-1` means the tag is closing
          */
-        this.nesting = 0;
+        // this.nesting = 0;
 
         /**
          * AST#attrs: Array
          *
          * Html attributes. Format: `[ [ name1, value1 ], [ name2, value2 ] ]`
          */
-        this.attrs = null;
-
-        /**
-         * AST#map: Array
-         *
-         * Source map info. Format: `[ line_begin, line_end ]`
-         */
-        this.map = null;
+        // this.attrs = null;
 
         /**
          * AST#level: Number
          *
          * nesting level, the same as `state.level`
          */
-        this.level = 0;
+        // this.level = 0;
 
         /**
          * AST#children: Array
          *
          * An array of child nodes (inline and img tokens)
          */
-        this.children = null;
+        this.children = [];
 
         /**
          * AST#content: String
@@ -70,28 +82,28 @@ export class AST {
          * In a case of self-closing tag (code, html, fence, etc.),
          * it has contents of this tag.
          */
-        this.content = "";
+        // this.content = "";
 
         /**
          * AST#markup: String
          *
          * '*' or '_' for emphasis, fence string for fence, etc.
          */
-        this.markup = "";
+        // this.markup = "";
 
         /**
          * AST#info: String
          *
          * fence info string
          */
-        this.info = "";
+        // this.info = "";
 
         /**
          * AST#meta: Object
          *
          * A place for plugins to store an arbitrary data
          */
-        this.meta = null;
+        // this.meta = null;
 
         /**
          * AST#block: Boolean
@@ -99,7 +111,7 @@ export class AST {
          * True for block-level tokens, false for inline tokens.
          * Used in renderer to calculate line breaks
          */
-        this.block = false;
+        // this.block = false;
 
         /**
          * AST#hidden: Boolean
@@ -107,7 +119,7 @@ export class AST {
          * If it's true, ignore this element when rendering. Used for tight lists
          * to hide paragraphs.
          */
-        this.hidden = false;
+        // this.hidden = false;
     }
 
     /**

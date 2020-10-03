@@ -24,8 +24,7 @@
  *      -- 2nd-level list item
  *      etc...
  */
-export const reg = /^([ \t]*)(\d+[\.\)]|[\*\+\-])[ \t]+([^\n]+(?:\\\n)?)+\n(?:\1[ \t]*(\d+[\.\)]|[\*\+\-])[ \t]+(?:[^\n]+(?:\\\n)?)+\n)+/; // (?:(\1[ \t]*(?:\d+[\.\)]|[\*\+\-])[ \t]+)([^\n]+(?:\\\n)?)+\n)+
-// export const reg = /^([ \t]*)(\d+[\.\)]|[\*\+\-])[ \t]+([^\n]+(?:\\\n)?)+\n(?!\1[ \t]*(?:\d+[\.\)]|[\*\+\-])[ \t]+(?:[^\n]+(?:\\\n)?)+\n)+/; // (?:(\1[ \t]*(?:\d+[\.\)]|[\*\+\-])[ \t]+)([^\n]+(?:\\\n)?)+\n)+
+export const reg = /^([ \t]*)(\d+[\.\)]|[\*\+\-])[ \t]+([^\n]+(?:\\\n)?)+\n(?:\1[ \t]+(?:\d+[\.\)]|[\*\+\-])[ \t]+(?:[^\n]+(?:\\\n)?)+\n)*/;
 // let cnt=0;
 export function parse(src, state) {
     // state.tokenize(reg, "list");
@@ -34,6 +33,7 @@ export function parse(src, state) {
     // let src = state.src;
 
     let value = reg.exec(src);
+    // console.log("li", value)
     // if(value) console.log(`${cnt++}:`, value[0])
     // if (!value) return null;
 
@@ -50,10 +50,11 @@ export function parse(src, state) {
 
     if (value) {
         // state.token('list', value, map, raw)
-        state.token("list", [...value], value[0], 0);
-        return 0;
+        let step = value[1].length+value[2].length+1;
+        state.token("li", [...value], value[0], step);
+        return step;
     }
-    // return value ? [value[1].length, "list", [...value], value[0]] : null;
+    // return value ? [value[1].length, "li", [...value], value[0]] : null;
     return -1;
 }
 
