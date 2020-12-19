@@ -76,31 +76,126 @@ export class Lexer {
         //     rules[i].apply(state);
         // }
 
-        let $src, $pos, walk, rules;
+        // global vars: 所有 rule 都匹配完才重置
+        let $src, $position, walk, rules, retry;
+        let stepMap = { 0: 0, [src.length - 1]: 0 },
+            $stepMap;
         Object.keys(tower).forEach((level) => {
             // console.log("tower");
-            ($src = src), ($pos = 0);
-            walk = (n) => {
-                $pos += n;
-                $src = $src.substring(n);
-            };
-
-            rules = tower[level];
-
-            let step = -1,
-                retry = rules.length;
-            while ($src) {
-                rules.forEach((rule) => {
-                    state.check($pos);
-                    // console.log($pos, rule.name, retry);
-                    if ((step = rule.apply($src, state)) > 0) {
-                        walk(step);
-                    }
+            ($src = src),
+                ($position = 0),
+                (walk = (n) => {
+                    $position += n;
+                    $src = $src.substring(n);
                 });
-                if (state.position === $pos && !--retry) {
-                    walk(1); // 前后两次位置不变时，尝试遍历所有规则，若仍未有位置移动，则强制前进 1, 一避免死循环
+
+            // local vars: $src 走完一趟即重置
+            (rules = tower[level]),
+                (retry = rules.length),
+                ($stepMap = { 0: 0, [src.length - 1]: 0 });
+            console.log({ rules });
+
+            let startPosition, endPosition;
+            let closestPosition, lastPosition;
+            let token, step, raw, map;
+            let nextStep, startMarkerStep, endMarkerStep;
+            let i, rule;
+            while ($src) {
+                (closestPosition = -1), (lastPosition = $position);
+                (nextStep = $stepMap[$position] || stepMap[$position]) &&
+                    walk(nextStep);
+                // console.log([nextStep]);
+                // console.log({$position})
+                for (i = 0, rule = rules[i]; i < rules.length; i++) {
+                    if ($position < rule.index) {
+                        continue;
+                    } else {
+                        rule.index = $position;
+                    }
+                    /**
+                     * Token Format:
+                     * {
+                     *      type: String,
+                     *      value: Array,
+                     *      index: Number, // the $position where a rule applied
+                     *      raw: String,
+                     *      map: Array, // Format: [start position index relative to the $position, end position index relative to the $position]
+                     *      step: Array | Number, // Format: [start marker step, end marker step] | step
+                     * }
+                     */
+                    // 获取 token
+                    if ((token = rule.apply($src, state))) {
+                        token["index"] = $position;
+                        // 收集 Token
+                        state.tokenize(token);
+                    } else {
+                        // Do nothing
+                        continue;
+                    }
+
+                    if (!(map = token.map)) {
+                        continue;
+                    } else if (!Array.isArray(map)) {
+                        continue;
+                    } else if (!Number.isInteger(map[0] || map[0] < 0)) {
+                        continue;
+                    } else if (!Number.isInteger(map[1] || map[1] < 0)) {
+                        continue;
+                    } else {
+                        // [startPosition, endPosition] = map;
+                        // map = map.map((item) => item + $position);
+                        startPosition = $position + map[0];
+                        endPosition = $position + map[1];
+                        // 更新 rule.index
+                        rule.index = endPosition;
+                        if (
+                            closestPosition < 0 ||
+                            closestPosition > startPosition
+                        )
+                            closestPosition = startPosition;
+                    }
+
+                    // 更新 position
+                    if (!(step = token.step)) {
+                        continue;
+                    } else if (Array.isArray(step)) {
+                        [startMarkerStep, endMarkerStep] = step;
+                        // 更新 position
+                        Number.isInteger(startMarkerStep) &&
+                            startMarkerStep > 0 &&
+                            (stepMap[
+                                startPosition
+                            ] = startMarkerStep) /* &&
+                            walk(startMarkerStep) */;
+                        Number.isInteger(endMarkerStep) &&
+                            endMarkerStep > 0 &&
+                            (stepMap[
+                                endPosition - endMarkerStep
+                            ] = endMarkerStep);
+                    } else if (Number.isInteger(step)) {
+                        // step > 0 && walk(step);
+                        $stepMap[startPosition] = step;
+                    }
+
+                    console.log([
+                        token.index,
+                        map,
+                        step,
+                        $position,
+                        closestPosition,
+                        $stepMap,
+                        token.raw,
+                    ]);
+                }
+                if (closestPosition > 0) {
+                    walk(closestPosition - $position);
+                }
+                if (lastPosition === $position && !--retry) {
+                    // console.log("walk(1)", [state.position, $position])
+                    walk(1); // 前后两次位置不变时，尝试应用一遍所有规则，若仍未有位置移动，则强制前进 1, 以避免死循环
                     retry = rules.length;
                 }
+                // console.log([closestPosition, $position,$src]);
             }
         });
 
@@ -109,7 +204,7 @@ export class Lexer {
         state.token("over", [], "", 0);
 
         // 解析文本段 token
-        ($src = src), ($pos = 0);
+        ($src = src), ($position = 0);
         let last = 0,
             curr = 0,
             $tokens = [],

@@ -54,12 +54,11 @@ export class Renderer {
 
         let { children } = ast,
             pieces = [];
-        if (Array.isArray(children)  && children.length) {
+        if (Array.isArray(children) && children.length) {
             // stack.push(ast);
-            pieces = children
-                .map((node) => {
-                    return this.r(node);
-                });
+            pieces = children.map((node) => {
+                return this.r(node);
+            });
         }
         return pieces.length ? t(pieces) : t();
     }
@@ -74,19 +73,40 @@ export class Renderer {
                 return () => `<hr/>`;
             case "heading":
                 tag = `h${value[1].length}`;
-                return (pieces = [value[2]]) => `<${tag}>${pieces.join("")}</${tag}>`;
+                return (pieces = [value[2]]) =>
+                    `<${tag}>${pieces.join("")}</${tag}>`;
             case "list":
                 // out.push("<hr/>");
-                tag = `${/(\d+[\.\)])/.exec(value[2])?'ol':'ul'}`;
-                return (pieces=[])=>`<${tag}>${pieces.join("")}</${tag}>`;
+                tag = `${/(\d+[\.\)])/.exec(value[2]) ? "ol" : "ul"}`;
+                return (pieces = []) => `<${tag}>${pieces.join("")}</${tag}>`;
             case "li":
                 // out.push("<hr/>");
                 // tag = `li`;
-                return (pieces=[])=>`<li>${pieces.join("")}</li>`;/* <span>${value[3]}</span> */
+                return (pieces = []) => `<li>${pieces.join("")}</li>`;
+            case "em":
+                // out.push("<hr/>");
+                // tag = value[1]
+                //     ? `em`
+                //     : value[2]
+                //     ? `strong`
+                //     : value[3]
+                //     ? `del`
+                //     : value[4]
+                //     ? `mark`
+                //     : `span`;
+                return () => `<em>${value[1]}</em>`;
+            case "strong":
+                return () => `<strong>${value[1]}</strong>`;
+            case "del":
+                return () => `<del>${value[1]}</del>`;
+            case "mark":
+                return () => `<mark>${value[1]}</mark>`;
+            case "code":
+                return () => `<code>${value[2]}</code>`;
             case "text":
                 // out.push("<hr/>");
                 // tag = `li`;
-                return ()=>`<p>${raw}</p>`;
+                return () => `<span>${raw}</span>`;
             default:
                 return (pieces = []) => `${pieces.join("")}`;
             // [TO DO]

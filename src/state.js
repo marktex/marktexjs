@@ -6,6 +6,11 @@ import { curry } from "./util";
 export class State {
     constructor(src, preset = null) {
         /**
+         * 预处理
+         */
+        src = (preset && preset(src)) || src;
+
+        /**
          * Lexer#ruler: Ruler
          *
          * [[Ruler]] instance. Keep configuration of parse rules.
@@ -15,12 +20,24 @@ export class State {
         /**
          * State#src: String
          */
-        this.src = (preset && preset(src)) || src;
+        this.src = src;
 
         /**
          * State#position: Number
          */
         this.position = 0;
+
+        /**
+         * State#cursor: Number
+         */
+        this.cursor = 0;
+
+        /**
+         * State#texts: Array
+         *
+         * Format: ["the text between 0 and cursor-1", "the text between cursor and src.length-1"]
+         */
+        this.texts = ["", src];
 
         /**
          * State#tokens: Array
@@ -56,36 +73,56 @@ export class State {
 
     /**
      *
-     * @param {RegExp} regexp
-     * @param {String} type
-     * @param {Number} step 步长，规则匹配后游标应向后移动的距离，比如：`### 三级标题` 的步长为 4（前缀 `### `的长度）
+     * @param {Number} n
      */
-    tokenize(regexp, type = "", step = 0) {
-        let value, raw, input, index, shadow, lines, row, col, map;
-        let src = this.src;
-        while ((value = regexp.exec(src))) {
-            raw = value[0];
-            input = value["input"];
-            index = value["index"]; // start index
-            shadow = index + raw.length; // 阴影，规则匹配后的作用范围， 比如：`### 三级标题` 的阴影为 8 （整个字符串的长度，也即 token.raw 的长度）
-            // console.log(input, raw, shadow, index,input.substring(0, index), input.substring(0, index).split(/\n/))
-            lines = input.substring(0, index).split(/\n/);
-            row = lines.length; // line number
-            col = lines.pop().length; // column number
-            map = [index, shadow, row, col];
+    walk(n) {
+        this.cursor += n;
+        let [b, a] = this.texts;
+        this.texts = this.src.split(
+            new RegExp(`(?<=^[\\s\\S]{${this.cursor}})`)
+        );
+    }
 
-            if (value) {
-                let l = this.tokens.push({
-                    type,
-                    value: [...value],
-                    index,
-                    raw,
-                    map,
-                    // step,
-                });
-                this.table[index] = l - 1;
-            }
-        }
+    /**
+     * 将 token.index, token.map[0], token.map[1] 由相对 position 转换为绝对 position
+     * 补充 token.map[2], token.map[3]
+     * @param {Object} token
+     */
+    tokenize({ type, step, value, index, raw, map }) {
+        index = index + map[0];
+        // shadow = index + map[1];
+        // this.position = position;
+        const { src } = this;
+        // console.log(
+        //     type,
+        //     src.length,
+        //     position,
+        //     [value[0]] /* , $src.substring(0, 6) */
+        // );
+        let lines = src.substring(0, index).split(/\n/);
+        // map = map || [
+        //     position, // start position
+        //     position + raw.length, // end position，也即阴影，规则匹配后的作用范围， 比如：`### 三级标题` 的阴影为 8 （整个字符串的长度，也即 token.raw 的长度）
+        //     lines.length, // line number
+        //     lines.pop().length, // column number
+        // ];
+        map = [
+            index,
+            index + map[1],
+            lines.length, // line number
+            lines.pop().length, // column number
+        ];
+        let l = this.tokens.push({
+            type,
+            step,
+            value,
+            index,
+            raw,
+            map,
+        });
+        // this.table[map[0]] = l - 1;
+        this.table[index] = this.table[index] || [];
+        this.table[index].push(l - 1);
     }
 
     /**
@@ -95,7 +132,7 @@ export class State {
      * @param {array} map Format: [start, end, line, offset]
      * @param {string} raw
      */
-    token(type, value, raw = "", step=0) {
+    token(type, value, raw = "", step = 0) {
         const { src, position } = this;
         // console.log(
         //     type,
@@ -119,7 +156,7 @@ export class State {
         });
         // this.table[map[0]] = l - 1;
         this.table[position] = this.table[position] || [];
-        this.table[position].push(l-1);
+        this.table[position].push(l - 1);
     }
 
     check(position = 0) {

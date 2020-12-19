@@ -1,3 +1,8 @@
+import em from "./em";
+import strong from "./strong";
+import del from "./del";
+import mark from "./mark";
+import code from "./code";
 import hr from "./hr";
 import heading from "./heading";
 import list from "./list";
@@ -11,9 +16,14 @@ import space from "./space"
 // export * from "./space"
 
 export default [
+    // ["strong", strong],
+    // ["em", em],
+    // ["del", del],
+    // ["mark", mark],
     // ["hr", hr],
     // ["heading", heading],
-    ["list", list],
-    ["li", li],
+    // ["code", code],
+    ["list", list, {level:0}],
+    ["li", li, {level:1}],
     // ["space", space],
 ]

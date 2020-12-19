@@ -1,12 +1,12 @@
-import Lexer from './Lexer.js';
-import State from './state.js';
-import Parser from './Parser.js';
-import Renderer from './Renderer.js';
+import Lexer from "./Lexer.js";
+import State from "./state.js";
+import Parser from "./Parser.js";
+import Renderer from "./Renderer.js";
 // import Tokenizer from './Tokenizer.js';
 // import TextRenderer from './TextRenderer.js';
 // import Slugger from './Slugger.js';
 
-function MarkTex(src, opt={}, callback=()=>{}) {
+function MarkTex(src, opt = {}, callback = () => {}) {
     // throw error in case of non string input
     if (typeof src === "undefined" || src === null) {
         throw new Error("MarkTex(): input parameter is undefined or null");
@@ -25,7 +25,7 @@ function MarkTex(src, opt={}, callback=()=>{}) {
     }
 
     try {
-        let state = new State(src, src=>{
+        let state = new State(src, (src) => {
             return src
                 .replace(/\r\n?|\n/g, "\n") // Normalize newlines
                 .replace(/\0/g, "\uFFFD") // Replace NULL characters
@@ -39,7 +39,7 @@ function MarkTex(src, opt={}, callback=()=>{}) {
         // return Parser.parse(tokens, opt);
         state = Parser.parse(state, opt);
         // console.log("MarkTex:table", JSON.stringify(state.table));
-        console.log("MarkTex:ast", JSON.stringify(state.ast));
+        // console.log("MarkTex:ast", JSON.stringify(state.ast));
         state = Renderer.render(state, opt);
         console.log("MarkTex:html", state.html);
     } catch (e) {
@@ -64,9 +64,9 @@ function MarkTex(src, opt={}, callback=()=>{}) {
 // MarkTex.parse = Parser.parse;
 
 let testContent = `
-MARKTEX 语法设计
+# MARKTEX 语法设计
 
-标题
+## 标题
 ---------------------------
 # 一级标题
 ## 二级标题
@@ -76,9 +76,9 @@ MARKTEX 语法设计
 ###### 六级标题
 
 
-列表
+## 列表
 ---------------------------
-无序列表
+### 无序列表
 * Item 一级列表
   * Item 二级列表
     * Item 三级列表
@@ -86,7 +86,7 @@ MARKTEX 语法设计
   * Item 二级列表
 * Item 一级列表
 
-有序列表
+### 有序列表
 1. Item 一级列表
   1. Item 二级列表
     1. Item 三级列表
@@ -98,7 +98,7 @@ MARKTEX 语法设计
 - [ ] Incomplete item
 - [x] Complete item
 
-样式
+## 样式
 ---------------------------
 *斜体* 
 **粗体** 
@@ -109,7 +109,10 @@ H_2_O 下标
 2^10^ 上标
 `;
 
-MarkTex(testContent)
+// console.log(testContent.match(/([ \t]*)(\d+[\.\)]|[\*\+\-])[ \t]+[\s\S]+?\n(?![ \t]*(?:\d+[\.\)]|[\*\+\-]))/g))
+let ret,
+    reg = /([ \t]*)(\d+[\.\)]|[\*\+\-])[ \t]+[\s\S]+?\n(?![ \t]*(?:\d+[\.\)]|[\*\+\-]))/;
+MarkTex(testContent);
 
 // MarkTex.Renderer = Renderer;
 // MarkTex.render = Renderer.render;
@@ -120,4 +123,3 @@ MarkTex(testContent)
 
 // module.exports = MarkTex;
 export default MarkTex;
-

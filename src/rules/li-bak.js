@@ -24,7 +24,7 @@
  *      -- 2nd-level list item
  *      etc...
  */
-export const reg = /((?<=\n)([ \t]*)(\d+[\.\)]|[\*\+\-])[ \t]+([^\n]+(?:\\\n)?)+\n)(\1[ \t]+(?:\d+[\.\)]|[\*\+\-])[ \t]+(?:[^\n]+(?:\\\n)?)+\n)*/;
+export const reg = /^([ \t]*)(\d+[\.\)]|[\*\+\-])[ \t]+([^\n]+(?:\\\n)?)+\n(?:\1[ \t]+(?:\d+[\.\)]|[\*\+\-])[ \t]+(?:[^\n]+(?:\\\n)?)+\n)*/;
 // let cnt=0;
 export function parse(src, state) {
     // state.tokenize(reg, "list");
@@ -50,20 +50,12 @@ export function parse(src, state) {
 
     if (value) {
         // state.token('list', value, map, raw)
-        // let step = value[1].length+value[2].length+1;
-        // state.token("li", [...value], value[0], step);
-        // state.check()
-        // return step;
-        return {
-            type: "li",
-            value: [...value],
-            raw: value[0],
-            map: [value.index, value.index + value[0].length],
-            step: value[1].length+value[1].length+1,
-        };
+        let step = value[1].length+value[2].length+1;
+        state.token("li", [...value], value[0], step);
+        return step;
     }
     // return value ? [value[1].length, "li", [...value], value[0]] : null;
-    return null;
+    return -1;
 }
 
 export function render(state) {}

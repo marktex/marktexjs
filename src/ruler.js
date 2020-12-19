@@ -1,5 +1,5 @@
 export class Ruler {
-    constructor(rules=null) {
+    constructor(rules = null) {
         /**
          * Parser#__rules__: Array
          *
@@ -46,15 +46,16 @@ export class Ruler {
          *      level: Number, // 规则等级
          * }
          */
-        this.__tower__ = {}
+        this.__tower__ = {};
 
         if (rules) {
-            rules = Array.isArray(rules) ? rules: [rules];
-            rules.forEach(([name, apply, step, options={}]) => {
-                let {level, enabled,} = options;
-                options =  options || {};
-                enabled =  enabled || true;
+            rules = Array.isArray(rules) ? rules : [rules];
+            rules.forEach(([name, apply, options = {}]) => {
+                let { level, index, enabled } = options;
+                options = options || {};
+                enabled = enabled || true;
                 level = level || 0;
+                index = index || 0;
                 /**
                  * @deprecated
                  */
@@ -64,20 +65,22 @@ export class Ruler {
                     apply,
                     options,
                 });
-                this.__tower__[level] = this.__tower__[level] ? this.__tower__[level] : [];
+                this.__tower__[level] = this.__tower__[level]
+                    ? this.__tower__[level]
+                    : [];
                 this.__tower__[level].push({
                     name,
                     apply,
                     level,
+                    index,
                     enabled,
                     options,
                 });
-
             });
         }
     }
 
-    get tower(){
+    get tower() {
         /**
          * [TO DO]
          */

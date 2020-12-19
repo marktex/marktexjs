@@ -3,7 +3,7 @@
  * Horizontal Rules 水平分割线，示例：
  *      ---
  */
-const reg = /^\s*((?:[\-\+\*\/] ?){3,})\s*/;
+const reg = /^\=\=((?![\=\s])[^\=]+(?<![\=\s]))\=\=/;
 
 export function hr(src, state) {
     //  hr: /^(?:([\-] ?)+)\1\1$/gm,
@@ -33,8 +33,8 @@ export function hr(src, state) {
 
     if (value) {
         // state.token('list', value, map, raw)
-        let step = value[1].length;
-        state.token("hr", [...value], value[0], step);
+        let step = value[0].length;
+        state.token("mark", [ ...value], value[0], step);
         return step;
     }
     // return value ? [value[1].length, "li", [...value], value[0]] : null;
